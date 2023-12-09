@@ -1,0 +1,6 @@
+﻿  Gauss.cpp
+  laba-4.cpp
+C:\Users\andre\Desktop\Лабы числаки\laba-4\laba-4\qcustomplot.h(29,10): fatal  error C1083: Не удается открыть файл включение: QtCore/qglobal.h: No such file or directory,
+  qcustomplot.cpp
+C:\Users\andre\Desktop\Лабы числаки\laba-4\laba-4\qcustomplot.h(29,10): fatal  error C1083: Не удается открыть файл включение: QtCore/qglobal.h: No such file or directory,
+  Создание кода...
