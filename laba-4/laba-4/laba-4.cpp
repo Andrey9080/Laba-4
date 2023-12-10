@@ -1,111 +1,103 @@
 #include "Header.h"
-
-
-double sum_pow(int N, double* x, int P)
+double f11(double x1, double x2)
 {
-    double sum=0;
-    if (P == 0)
-    {
-        return 5;
-    }
-    if (P != 0)
-    {
-        for (int i = 0; i < N; i++)
-        {
-            sum += pow(x[i], P);
-           
-        }
-        return sum;
-    }
-    return false;
+    return cos(x1+1);
 }
-
-double sum_pow_2 (int N,double* y, double* x, int P)
+double f12(double x1, double x2)
 {
-    double sum = 0;
-    if (P == 0)
-    {
-        for (int i = 0; i < N; i++)
-        {
-            sum +=  y[i];
-
-        }
-        return sum;
-    }
-    if (P != 0)
-    {
-        for (int i = 0; i < N; i++)
-        {
-            sum += (pow(x[i], P) * y[i]);
-
-        }
-        return sum;
-    }
-    return false;
+    return (-1);
 }
-
+double f21(double x1, double x2)
+{
+    return 2;
+}
+double f22(double x1, double x2)
+{
+    return -sin(x2);
+}
+double function1(double x1, double x2)
+{
+    return (sin(x1) + x1 * x2 - 1);
+}
+double function2(double x1, double x2) 
+{
+    return (2 * x1 + cos(x2) - 2);
+}
+double f1derivative11(double x1, double x2, double dif) {
+    cout << ((function1(x1 + dif, x2) - function1(x1, x2)) / (dif));
+    return((function1(x1 + dif, x2) - function1(x1, x2)) / (dif));
+}
+double f1derivative12(double x1, double x2, double dif) {
+    cout << ((function1(x1, x2 + dif) - function1(x1, x2)) / (dif));
+    return((function1(x1, x2 + dif) - function1(x1, x2)) / (dif));
+}
+double f2derivative21(double x1, double x2, double dif) {
+    cout << ((function2(x1 + dif, x2) - function2(x1, x2)) / (dif));
+    return((function2(x1 + dif, x2) - function2(x1, x2)) / (dif));
+}
+double f2derivative22(double x1, double x2, double dif) {
+    cout << ((function2(x1, x2 + dif) - function2(x1, x2)) / (dif));
+    return((function2(x1, x2 + dif) - function2(x1, x2)) / (dif));
+}
 int main()
 {
-    //инициализируем переменные которые понадабятся в дальнейшем
-    int M = 1;
-    int N = 5;
-    double* x = new double[5];
-    double* y = new double[5];
-    double** A = new double* [4];
-    for (int i = 0; i < N; ++i)
-    {
-        A[i] = new double[4];
-    }
-    double* B = new double[4];
-    double* ankoun = new double[1];
 
-    //инициализируем в ручные полученные данные
-    x[0] = 2.4;
-    x[1] = 3.5;
-    x[2] = 5;
-    x[3] = 6.89;
-    x[4] = 10;
+    setlocale(0, "");
 
-    y[0] = 0.0141;
-    y[1] = 0.0281;
-    y[2] = 0.0562;
-    y[3] = 0.1125;
-    y[4] = 0.2250;
+    double* x = new double[2];
+    x[0] = 1;
+    x[1] = 1;
+    double M = 0.01;
+    double** Jac = new double* [2];
+    for (int i = 0; i < 2; ++i) 
+    {
+        Jac[i] = new double[2];
+    }
+    double  F[2];
+    int NIT = 5;
+    while (NIT > 0)
+    {
 
-    double* x2 = new double[4];
-    for (int i = 0; i < N; ++i)
-    {
-        x2[i] = pow(x[i], 2);
+
+        Jac[0][0] = f1derivative11(x[0], x[1], M);
+        Jac[0][1] = f1derivative12(x[0], x[1], M);
+        Jac[1][0] = f2derivative21(x[0], x[1], M);
+        Jac[1][1] = f2derivative22(x[0], x[1], M);
+
+      /*  out(x, Jac, F);*/
+        rabochiy gauss(2, Jac, x);
+        gauss.work();
+        gauss.out();
+        x = gauss.unknown_out();
+        
+        --NIT;
+        
     }
-    for (int i = 0; i < N; ++i)
+    cout<<"\n" << "------------------------------------------------------------------------------------------------------------------------" << "\n";
+    while (NIT > 0)
     {
-        int m = 0+ i;
-        for (int b = 0; b < N; ++b)
-        {
-            A[b][i] = sum_pow(N, x2, m);
-            ++m;
-        }
+
+
+        Jac[0][0] = f11(x[0], x[1]);
+        Jac[0][1] = f12(x[0], x[1]);
+        Jac[1][0] = f21(x[0], x[1]);
+        Jac[1][1] = f22(x[0], x[1]);
+
+        /*  out(x, Jac, F);*/
+        rabochiy gauss(2, Jac, x);
+        gauss.work();
+        gauss.out();
+        x = gauss.unknown_out();
+
+        --NIT;
 
     }
-    //вывод полученной матрицы
-    for (int i = 0; i < N; ++i)
-    {
-        for (int b = 0; b < N; ++b)
-        {
-            cout<<setw(15) << A[b][i];
-        }
-        cout << "|" << endl;
-    }
-    for (int i = 0; i < N; ++i)
-    {
-        B[i] = sum_pow_2(N, y, x2, i);
-    }
-    rabochiy gauss(2, A, B);
-    gauss.work();
-    gauss.out();
-    ankoun = gauss.unknown_out();
-    double a, b;
-    a = ankoun[0];
-    b = ankoun[1];
+       
 
+    cout << "\n" << x[0] << " " << x[1] << "\n";
+    for (int i = 0; i < 2; ++i) 
+    {
+        delete[] Jac[i];
+    }
+    delete[] Jac;
 }
