@@ -1,5 +1,5 @@
-﻿#include "Header.h"
-#include "qcustomplot.cpp"
+#include "Header.h"
+
 
 double sum_pow(int N, double* x, int P)
 {
