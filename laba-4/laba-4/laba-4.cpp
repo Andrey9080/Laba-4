@@ -49,14 +49,14 @@ int main()
     //инициализируем переменные которые понадабятся в дальнейшем
     int M = 1;
     int N = 5;
-    double* x = new double[N-1];
-    double* y = new double[N-1];
-    double** A = new double* [N-1];
+    double* x = new double[N];
+    double* y = new double[N];
+    double** A = new double* [N];
     for (int i = 0; i < N; ++i)
     {
-        A[i] = new double[4];
+        A[i] = new double[N-1];
     }
-    double* B = new double[4];
+    double* B = new double[N-1];
     double* ankoun = new double[1];
 
     //инициализируем в ручные полученные данные
@@ -72,7 +72,7 @@ int main()
     y[3] = 0.1125;
     y[4] = 0.2250;
 
-    double* x2 = new double[4];
+    double* x2 = new double[N-1];
     for (int i = 0; i < N; ++i)
     {
         x2[i] = pow(x[i], 2);
